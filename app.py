@@ -11,13 +11,21 @@ with st.form("form"):
     all_players = st.checkbox("Use All Players", value=True)
     chosen_players = st.multiselect(label="Select Players", options=players["Name"])
 
+    if all_players:
+        temp = players.shape[0]
+    else:
+        temp = len(chosen_players)
+
+    select_opts = list(
+        filter(None, [x if temp % x == 0 else None for x in range(2, temp)])
+    )
+
     st.subheader("How Many Teams?")
-    number_of_teams = st.slider("", min_value=2, max_value=players.shape[0])
+    # number_of_teams = st.slider("", min_value=2, max_value=players.shape[0])
+    number_of_teams = int(st.select_slider("", options=[2, 3, 4, 5, 6],))
     submit = st.form_submit_button("Create Teams")
 
-
 if submit:
-
     if all_players:
         randomized = players.sample(n=players.shape[0]).reset_index(drop=True)
 
