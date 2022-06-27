@@ -9,7 +9,12 @@ st.markdown("# Let's Pick Some Teams.")
 with st.form("form"):
     st.subheader("Who's Playing?")
     all_players = st.checkbox("Use All Players", value=True)
-    chosen_players = st.multiselect(label="Select Players", options=players["Name"])
+    chosen_players_text = st.text_input(
+        "OR...",
+        placeholder="Enter names seperated by commas (ex. Scott, Adam, Lainy, Ryan).",
+    )
+    chosen_players = [x.strip() for x in chosen_players_text.split(",")]
+    # chosen_players = st.multiselect(label="Select Players", options=players["Name"])
 
     if all_players:
         temp = players.shape[0]
@@ -19,10 +24,15 @@ with st.form("form"):
     select_opts = list(
         filter(None, [x if temp % x == 0 else None for x in range(2, temp)])
     )
-
     st.subheader("How Many Teams?")
-    # number_of_teams = st.slider("", min_value=2, max_value=players.shape[0])
-    number_of_teams = int(st.select_slider("", options=[2, 3, 4, 5, 6],))
+
+    number_of_teams = int(
+        st.select_slider(
+            "",
+            options=[1, 2, 3, 4, 5, 6],
+            help="Select 1 team to get a randomized order of all player names.",
+        ),
+    )
     submit = st.form_submit_button("Create Teams")
 
 if submit:
