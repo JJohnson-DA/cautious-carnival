@@ -29,6 +29,7 @@ with st.form("form"):
     number_of_teams = int(
         st.select_slider(
             "",
+            value=2,
             options=[1, 2, 3, 4, 5, 6],
             help="Select 1 team to get a randomized order of all player names.",
         ),
